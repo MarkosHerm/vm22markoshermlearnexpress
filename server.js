@@ -5,6 +5,8 @@ const nunjucks = require('nunjucks')
 const app = express();
 const port = 3000;
 
+app.use(express.urlencoded({extended:true}))
+
 nunjucks.configure('views', {
     autoescape: true,
     express: app
@@ -23,6 +25,14 @@ app.get('/form', (req, res) => {
   res.render('form.njk', req.query);
 });
 
+app.get('/circle', (req, res) => {
+  res.render('circle.njk');
+});
+
+app.post('/circle', (req, res) => {
+  let area = Math.PI * req.body.radius * req.body.radius;
+  res.render('circleAnswer.njk', {r: req.body.radius, a: area });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
